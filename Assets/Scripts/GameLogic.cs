@@ -1,6 +1,5 @@
 using UnityEngine;
 using TMPro;
-using UnityEngine.SceneManagement;
 
 public class GameLogic : MonoBehaviour
 {
@@ -11,9 +10,8 @@ public class GameLogic : MonoBehaviour
     public TextMeshProUGUI scoreText;
     public TextMeshProUGUI timerText;
 
-
     public GameObject losePanel;
-
+    public GameObject winPanel;
     void Update()
     {
         if (isGameOver) return;
@@ -25,39 +23,27 @@ public class GameLogic : MonoBehaviour
         }
         else
         {
-            GameOver();
+            ShowLoseScreen();
         }
     }
 
-    void GameOver()
+    public void CollectCoin()
+    {
+        coins++;
+        scoreText.text = "Coins: " + coins;
+    }
+
+    public void ShowWinScreen()
     {
         isGameOver = true;
-        timerText.text = "0";
-        losePanel.SetActive(true);
+        winPanel.SetActive(true);
         Time.timeScale = 0f;
     }
 
-
-    public void RestartGame()
+    void ShowLoseScreen()
     {
-        Time.timeScale = 1f;
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-    }
-
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.CompareTag("Coin"))
-        {
-            coins++;
-            scoreText.text = "Coins: " + coins;
-            Destroy(other.gameObject);
-        }
-
-        if (other.CompareTag("Finish"))
-        {
-            isGameOver = true;
-            timerText.text = "You Win!";
-
-        }
+        isGameOver = true;
+        losePanel.SetActive(true);
+        Time.timeScale = 0f;
     }
 }
