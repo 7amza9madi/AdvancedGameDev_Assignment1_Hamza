@@ -1,5 +1,6 @@
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class GameLogic : MonoBehaviour
 {
@@ -7,9 +8,11 @@ public class GameLogic : MonoBehaviour
     public float timeLeft = 30f;
     bool isGameOver = false;
 
-
     public TextMeshProUGUI scoreText;
     public TextMeshProUGUI timerText;
+
+
+    public GameObject losePanel;
 
     void Update()
     {
@@ -18,14 +21,27 @@ public class GameLogic : MonoBehaviour
         if (timeLeft > 0)
         {
             timeLeft -= Time.deltaTime;
-            timerText.text = "Time: " + Mathf.Ceil(timeLeft).ToString(); 
+            timerText.text = "Time: " + Mathf.Ceil(timeLeft).ToString();
         }
         else
         {
-            timerText.text = "Time's Up!";
-            isGameOver = true;
-            Debug.Log("Game Over!");
+            GameOver();
         }
+    }
+
+    void GameOver()
+    {
+        isGameOver = true;
+        timerText.text = "0";
+        losePanel.SetActive(true);
+        Time.timeScale = 0f;
+    }
+
+
+    public void RestartGame()
+    {
+        Time.timeScale = 1f;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -41,7 +57,7 @@ public class GameLogic : MonoBehaviour
         {
             isGameOver = true;
             timerText.text = "You Win!";
-            Debug.Log("Finished with " + coins + " coins.");
+
         }
     }
 }
