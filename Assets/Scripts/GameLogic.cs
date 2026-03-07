@@ -1,5 +1,5 @@
 using UnityEngine;
-using UnityEngine.UI;
+using TMPro;
 
 public class GameLogic : MonoBehaviour
 {
@@ -7,14 +7,24 @@ public class GameLogic : MonoBehaviour
     public float timeLeft = 30f;
     bool isGameOver = false;
 
+
+    public TextMeshProUGUI scoreText;
+    public TextMeshProUGUI timerText;
+
     void Update()
     {
         if (isGameOver) return;
 
-        timeLeft -= Time.deltaTime;
-        if (timeLeft <= 0) {
-            Debug.Log("Time Finished! You collected " + coins + " coins.");
+        if (timeLeft > 0)
+        {
+            timeLeft -= Time.deltaTime;
+            timerText.text = "Time: " + Mathf.Ceil(timeLeft).ToString(); 
+        }
+        else
+        {
+            timerText.text = "Time's Up!";
             isGameOver = true;
+            Debug.Log("Game Over!");
         }
     }
 
@@ -23,13 +33,15 @@ public class GameLogic : MonoBehaviour
         if (other.CompareTag("Coin"))
         {
             coins++;
+            scoreText.text = "Coins: " + coins;
             Destroy(other.gameObject);
         }
 
         if (other.CompareTag("Finish"))
         {
-            Debug.Log("You reached the finish! You collected " + coins + " coins.");
             isGameOver = true;
+            timerText.text = "You Win!";
+            Debug.Log("Finished with " + coins + " coins.");
         }
     }
 }
