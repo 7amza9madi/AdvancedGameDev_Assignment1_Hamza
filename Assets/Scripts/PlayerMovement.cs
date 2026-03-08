@@ -43,5 +43,9 @@ public class PlayerMovement : MonoBehaviour
         {
             gameLogic.ShowWinScreen();
         }
+        if (other.CompareTag("KillZone"))
+        {
+            gameLogic.ShowLoseScreen();
+        }
     }
 }

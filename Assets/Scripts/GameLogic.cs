@@ -1,5 +1,6 @@
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class GameLogic : MonoBehaviour
 {
@@ -40,10 +41,16 @@ public class GameLogic : MonoBehaviour
         Time.timeScale = 0f;
     }
 
-    void ShowLoseScreen()
+    public void ShowLoseScreen()
     {
         isGameOver = true;
         losePanel.SetActive(true);
         Time.timeScale = 0f;
     }
+    public void RestartGame()
+    {
+        Time.timeScale = 1f;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
 }
